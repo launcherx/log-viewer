@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { extractJsonFromString } from './extract-json-from-string';
 
 export const highlightSearchResult = (text, query = null) => {
   if (query) {
@@ -15,6 +16,22 @@ export const highlightSearchResult = (text, query = null) => {
     .replace(/&lt;mark&gt;/g, '<mark>')
     .replace(/&lt;\/mark&gt;/g, '</mark>');
 };
+
+export const prettifyJson = (text) => {
+
+  try {
+    let prettiedJson = '';
+    extractJsonFromString(text).forEach((entry) => {
+      prettiedJson = `${prettiedJson} \n ${JSON.stringify(entry, null, 2)}`
+    })
+
+    return prettiedJson.length !== 0 ? prettiedJson : text;
+  } catch (e) {
+    // in case the regex is invalid, we want to just continue without marking any text.
+  }
+
+  return text;
+}
 
 export const escapeHtml = (text) => {
   const map = {

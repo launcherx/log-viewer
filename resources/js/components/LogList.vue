@@ -105,7 +105,7 @@
                         <LogCopyButton :log="log" />
                       </div>
                     </div>
-                    <pre class="log-stack" v-html="highlightSearchResult(log.full_text, searchStore.query)"></pre>
+                    <pre class="log-stack" v-html="highlightSearchResult(prettifyJson(log.full_text), searchStore.query)"></pre>
                     <div v-if="log.full_text_incomplete" class="py-4 px-8 text-gray-500 italic">
                       The contents of this log have been cut short to the first {{ LogViewer.max_log_size_formatted }}.
                       The full size of this log entry is <strong>{{ log.full_text_length_formatted }}</strong>
@@ -172,7 +172,7 @@
 <script setup>
 import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { highlightSearchResult, replaceQuery } from '../helpers.js';
+import {highlightSearchResult, prettifyJson, replaceQuery} from '../helpers.js';
 import {
   ArrowPathIcon,
   Bars3Icon,
